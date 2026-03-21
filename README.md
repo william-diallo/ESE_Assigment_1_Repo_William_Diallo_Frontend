@@ -1,0 +1,2 @@
+# ESE_Assigment_1_Repo_William_Diallo_Frontend
+Frontend for Inventory Management System
