@@ -15,3 +15,9 @@ export default api;
 export function loginUser(credentials) {
   return api.post("/auth/login/", credentials);
 }
+
+// POST /auth/register/ — matches RegisterSerializer fields: email, password, role
+// The backend defaults role to "STAFF" when omitted, so role is optional here
+export function registerUser(data) {
+  return api.post("/auth/register/", data);
+}

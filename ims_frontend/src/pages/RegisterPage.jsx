@@ -1,0 +1,173 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../services/api";
+
+// Role options that the backend supports via the User model.
+// "STAFF" is the default set by RegisterSerializer when no role is provided.
+const ROLE_OPTIONS = [
+  { value: "STAFF", label: "Staff" },
+  { value: "ADMIN", label: "Admin" },
+];
+
+export default function RegisterPage() {
+  const navigate = useNavigate();
+
+  // Form state mirrors the three fields in RegisterSerializer:
+  // email, password, and role (optional — backend defaults to STAFF)
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "STAFF",
+  });
+
+  // fieldErrors maps individual field names to server-side validation messages
+  const [fieldErrors, setFieldErrors] = useState({});
+  // generalError holds any non-field error (e.g. network failure)
+  const [generalError, setGeneralError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // Single handler for all text/select inputs — updates the matching key in form state
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    // Clear the field error for this input as the user corrects it
+    setFieldErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setFieldErrors({});
+    setGeneralError("");
+
+    // Client-side password confirmation check before hitting the network
+    if (form.password !== form.confirmPassword) {
+      setFieldErrors({ confirmPassword: "Passwords do not match." });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Send only the fields the serializer expects — omit confirmPassword
+      await registerUser({
+        email: form.email,
+        password: form.password,
+        role: form.role,
+      });
+
+      // Registration succeeded — redirect to login so the user can sign in
+      navigate("/login", { replace: true });
+    } catch (err) {
+      // Django REST Framework returns 400 with a detail object on validation failure.
+      // e.g. { email: ["user with this email already exists."], password: ["..."] }
+      if (err.response?.status === 400 && err.response.data) {
+        const data = err.response.data;
+        // Separate known field errors from any top-level non_field_errors
+        const { non_field_errors, ...fieldLevelErrors } = data;
+        setFieldErrors(fieldLevelErrors);
+        if (non_field_errors) {
+          setGeneralError(non_field_errors.join(" "));
+        }
+      } else {
+        setGeneralError("Registration failed. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div>
+      <h1>Create Account</h1>
+
+      {/* Top-level error (network issues or non_field_errors from the serializer) */}
+      {generalError && <p style={{ color: "red" }}>{generalError}</p>}
+
+      <form onSubmit={handleSubmit}>
+
+        {/* Email — required by RegisterSerializer */}
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+          {fieldErrors.email && (
+            <p style={{ color: "red" }}>{fieldErrors.email}</p>
+          )}
+        </div>
+
+        {/* Password — validated server-side by django's validate_password */}
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+          {fieldErrors.password && (
+            <p style={{ color: "red" }}>{fieldErrors.password}</p>
+          )}
+        </div>
+
+        {/* Confirm Password — client-side only, not sent to the backend */}
+        <div>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          {fieldErrors.confirmPassword && (
+            <p style={{ color: "red" }}>{fieldErrors.confirmPassword}</p>
+          )}
+        </div>
+
+        {/* Role — corresponds to the role field in RegisterSerializer.
+            Defaults to STAFF, matching the serializer's create() default. */}
+        <div>
+          <label htmlFor="role">Role</label>
+          <select
+            id="role"
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+          >
+            {ROLE_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          {fieldErrors.role && (
+            <p style={{ color: "red" }}>{fieldErrors.role}</p>
+          )}
+        </div>
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
+      </form>
+
+      {/* Link back to login for users who already have an account */}
+      <p>
+        Already have an account?{" "}
+        <button type="button" onClick={() => navigate("/login")}>
+          Log in
+        </button>
+      </p>
+    </div>
+  );
+}
