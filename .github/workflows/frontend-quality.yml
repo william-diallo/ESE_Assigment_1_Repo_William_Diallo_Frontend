@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-              cd ESE_Assigment_1_Repo_William_Diallo_Frontend\ims_frontend
+              cd C:\ESE\ESE_Assigment_1_Repo_William_Diallo_Frontend\ims_frontend
               npm ci
 
       - name: Run ESLint
