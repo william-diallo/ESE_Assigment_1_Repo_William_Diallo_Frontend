@@ -4,11 +4,11 @@ on:
   push:
     paths:
       - "ims_frontend/**"
-      - ".github/workflows/frontend-quality.yml"
+      - ".github/workflows/format-and-lint.yml"
   pull_request:
     paths:
       - "ims_frontend/**"
-      - ".github/workflows/frontend-quality.yml"
+      - ".github/workflows/format-and-lint.yml"
 
 jobs:
   lint-and-format:
@@ -26,14 +26,8 @@ jobs:
           cache-dependency-path: ims_frontend/package-lock.json
 
       - name: Install dependencies
-<<<<<<< HEAD:.github/workflows/format-and-lint.yml
         run: npm ci
         working-directory: ims_frontend
-=======
-        run: |
-              cd C:\ESE\ESE_Assigment_1_Repo_William_Diallo_Frontend\ims_frontend
-              npm ci
->>>>>>> 01494114098ca3314d414b5315056dac837ac71a:.github/workflows/frontend-quality.yml
 
       - name: Run ESLint
         run: npm run lint
@@ -41,7 +35,4 @@ jobs:
 
       - name: Check Prettier formatting
         run: npm run format:check
-<<<<<<< HEAD:.github/workflows/format-and-lint.yml
         working-directory: ims_frontend
-=======
->>>>>>> 01494114098ca3314d414b5315056dac837ac71a:.github/workflows/frontend-quality.yml
