@@ -17,8 +17,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint \"{src,public}/**/*.{js,jsx}\" --max-warnings=0",
+    "format": "prettier --write \"{src,public}/**/*.{js,jsx,css,html,json}\"",
+    "format:check": "prettier --check \"{src,public}/**/*.{js,jsx,css,html,json}\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "prettier": "^3.6.2"
   },
   "eslintConfig": {
     "extends": [
