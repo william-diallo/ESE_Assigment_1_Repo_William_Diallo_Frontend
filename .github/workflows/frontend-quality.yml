@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-              cd ./ims_frontend
+              cd ims_frontend
               npm ci
 
       - name: Run ESLint
