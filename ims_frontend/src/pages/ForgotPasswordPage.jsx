@@ -45,8 +45,8 @@ export default function ForgotPasswordPage() {
       <div>
         <h1>Check Your Email</h1>
         <p>
-          We've sent a reset code to <strong>{email}</strong>. Check your
-          email and follow the instructions to reset your password.
+          We've sent a reset code to <strong>{email}</strong>. Check your email
+          and follow the instructions to reset your password.
         </p>
         <button type="button" onClick={() => navigate("/reset-password")}>
           Enter Reset Code

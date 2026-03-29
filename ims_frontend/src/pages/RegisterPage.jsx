@@ -83,7 +83,6 @@ export default function RegisterPage() {
       {generalError && <p style={{ color: "red" }}>{generalError}</p>}
 
       <form onSubmit={handleSubmit}>
-
         {/* Email — required by RegisterSerializer */}
         <div>
           <label htmlFor="email">Email</label>

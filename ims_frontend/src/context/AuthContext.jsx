@@ -17,8 +17,9 @@ export default function AuthProvider({ children }) {
 
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-    api.get("/auth/me/")
-      .then(res => setUser(res.data))
+    api
+      .get("/auth/me/")
+      .then((res) => setUser(res.data))
       .catch(() => {
         localStorage.removeItem("token");
         setUser(null);
@@ -26,7 +27,7 @@ export default function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-   // FIXED: login now sets user FIRST, then resolves
+  // FIXED: login now sets user FIRST, then resolves
   async function login(token, userData) {
     localStorage.setItem("token", token);
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -46,7 +47,10 @@ export default function AuthProvider({ children }) {
     }
 
     setLoading(false);
-    console.log("AUTH CONTEXT RENDER:", { user: userData || null, loading: false });
+    console.log("AUTH CONTEXT RENDER:", {
+      user: userData || null,
+      loading: false,
+    });
   }
 
   function logout() {

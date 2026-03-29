@@ -24,7 +24,7 @@ export default function Login() {
 
       console.log("LOGIN SUCCESS, redirecting...", res.data);
 
-      await login(access, user);   // store token + user (AuthProvider will resolve auth state)
+      await login(access, user); // store token + user (AuthProvider will resolve auth state)
       console.log("NAVIGATE FIRING"); //debugging
       navigate("/dashboard", { replace: true });
     } catch (err) {
@@ -39,11 +39,7 @@ export default function Login() {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <form onSubmit={handleSubmit}>
-        <input
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-        />
+        <input name="email" placeholder="Email" onChange={handleChange} />
         <input
           name="password"
           type="password"

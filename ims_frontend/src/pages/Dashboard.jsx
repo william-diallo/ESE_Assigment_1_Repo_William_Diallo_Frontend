@@ -10,9 +10,7 @@ export default function Dashboard() {
       <h1>Dashboard</h1>
       <p>Welcome, {user?.email}</p>
 
-      <button onClick={logout}>
-        Logout
-      </button>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }
