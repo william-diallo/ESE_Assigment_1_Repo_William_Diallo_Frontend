@@ -53,6 +53,13 @@ export default function Login() {
         <button type="submit">Login</button>
       </form>
 
+      {/* Link to password recovery */}
+      <p>
+        <button type="button" onClick={() => navigate("/forgot-password")}>
+          Forgot Password?
+        </button>
+      </p>
+
       {/* Link to registration for new users */}
       <p>
         Don't have an account?{" "}

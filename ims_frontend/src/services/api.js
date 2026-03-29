@@ -21,3 +21,21 @@ export function loginUser(credentials) {
 export function registerUser(data) {
   return api.post("/auth/register/", data);
 }
+
+// POST /auth/password-reset-request/ — corresponds to PasswordResetRequestSerializer
+// Accepts: { email }
+// Backend sends a 6-digit reset code to the email address
+export function requestPasswordReset(email) {
+  return api.post("/auth/password-reset/request/", { email });
+}
+
+// POST /auth/password-reset-confirm/ — corresponds to PasswordResetConfirmSerializer
+// Accepts: { email, code, new_password }
+// Backend validates code (not expired, not used) and updates the user's password
+export function confirmPasswordReset(email, code, newPassword) {
+  return api.post("/auth/password-reset/confirm/", {
+    email,
+    code,
+    new_password: newPassword,
+  });
+}
