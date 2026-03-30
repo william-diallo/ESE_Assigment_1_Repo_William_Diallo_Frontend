@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { deleteInventoryItem, getInventoryItem } from "../services/api";
 import "../styles/ItemDetailsPage.css";
 
 export default function ItemDetailsPage() {
   const { itemId } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [item, setItem] = useState(null);
@@ -33,6 +34,12 @@ export default function ItemDetailsPage() {
 
     fetchItem();
   }, [itemId]);
+
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setSuccessMessage(location.state.successMessage);
+    }
+  }, [location.state]);
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
@@ -138,6 +145,13 @@ export default function ItemDetailsPage() {
         <div className="actions-row">
           <button className="btn-secondary" onClick={() => navigate("/search-items")}> 
             Back to Search
+          </button>
+          <button
+            className="btn-secondary"
+            onClick={() => navigate(`/items/${itemId}/edit`)}
+            disabled={!item}
+          >
+            Edit Item
           </button>
           <button
             className="btn-danger"

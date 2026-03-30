@@ -52,10 +52,14 @@ export default function SearchItemsPage() {
         setItems([]);
       }
     } catch (err) {
+      const data = err.response?.data;
       const errorMessage =
-        err.response?.data?.detail ||
-        err.response?.data?.message ||
-        "Failed to fetch inventory items. Please try again.";
+        (typeof data === "string" ? data : null) ||
+        data?.detail ||
+        data?.message ||
+        (err.response?.status === 500
+          ? "Server error (500): The backend crashed processing this request. Check the backend logs."
+          : "Failed to fetch inventory items. Please try again.");
       setError(errorMessage);
       setItems([]);
     } finally {
@@ -203,6 +207,14 @@ export default function SearchItemsPage() {
                           onClick={() => navigate(`/items/${item.id}`)}
                         >
                           View
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => navigate(`/items/${item.id}/edit`)}
+                          style={{ marginLeft: "0.5rem" }}
+                        >
+                          Edit
                         </button>
                       </td>
                     </tr>
