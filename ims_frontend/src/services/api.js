@@ -50,3 +50,20 @@ export function confirmPasswordReset(email, code, newPassword) {
 export function createInventoryItem(itemData) {
   return api.post("/inventory/items/", itemData);
 }
+
+// GET /inventory/items/ with optional query params:
+// name, category, description, search
+export function searchInventoryItems(filters = {}) {
+  return api.get("/inventory/items/", { params: filters });
+}
+
+// GET /inventory/items/:id/
+export function getInventoryItem(itemId) {
+  return api.get(`/inventory/items/${itemId}/`);
+}
+
+// DELETE /inventory/items/:id/
+// Backend allows deletion only for admin/staff users.
+export function deleteInventoryItem(itemId) {
+  return api.delete(`/inventory/items/${itemId}/`);
+}

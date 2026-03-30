@@ -6,6 +6,8 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Dashboard from "./pages/Dashboard";
 import AddItemPage from "./pages/AddItemPage";
+import SearchItemsPage from "./pages/SearchItemsPage";
+import ItemDetailsPage from "./pages/ItemDetailsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -39,6 +41,24 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <AddItemPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/search-items"
+            element={
+              <ProtectedRoute>
+                <SearchItemsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/items/:itemId"
+            element={
+              <ProtectedRoute>
+                <ItemDetailsPage />
               </ProtectedRoute>
             }
           />
