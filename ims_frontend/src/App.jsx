@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Dashboard from "./pages/Dashboard";
+import AddItemPage from "./pages/AddItemPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -29,6 +30,15 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/add-item"
+            element={
+              <ProtectedRoute>
+                <AddItemPage />
               </ProtectedRoute>
             }
           />

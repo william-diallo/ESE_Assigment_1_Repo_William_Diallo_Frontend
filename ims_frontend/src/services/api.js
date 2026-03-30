@@ -42,3 +42,11 @@ export function confirmPasswordReset(email, code, newPassword) {
     new_password: newPassword,
   });
 }
+
+// POST /inventory/items/ — corresponds to InventoryItemSerializer
+// Accepts: { name, description, amount (maps to quantity), category }
+// Automatically sets created_by to the authenticated user
+// Returns the created item with id, status, created_at, updated_at
+export function createInventoryItem(itemData) {
+  return api.post("/inventory/items/", itemData);
+}
