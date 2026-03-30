@@ -71,13 +71,5 @@ export function deleteInventoryItem(itemId) {
 // PATCH /inventory/items/:id/
 // Backend allows update only for admin users.
 export function updateInventoryItem(itemId, fields) {
-  const normalizedFields = { ...fields };
-
-  // Backend update serializers may expect "amount" instead of "quantity".
-  if (Object.prototype.hasOwnProperty.call(normalizedFields, "quantity")) {
-    normalizedFields.amount = normalizedFields.quantity;
-    delete normalizedFields.quantity;
-  }
-
-  return api.patch(`/inventory/items/${itemId}/`, normalizedFields);
+  return api.patch(`/inventory/items/${itemId}/`, fields);
 }
