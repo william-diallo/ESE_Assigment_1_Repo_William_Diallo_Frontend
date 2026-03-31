@@ -5,6 +5,15 @@ import "../styles/UpdateItemPage.css";
 
 function normalizeError(err, fallback) {
   const data = err.response?.data;
+  const categoryOptions = [
+    "Electronics - Home Appliances",
+    "Electronics - Games",
+    "Electronics - Misc",
+    "Food - Fruits and Vegetables",
+    "Food - Bakery",
+    "Food - Misc",
+    "Home",
+  ];
 
   if (!data) return fallback;
   if (typeof data.detail === "string") return data.detail;

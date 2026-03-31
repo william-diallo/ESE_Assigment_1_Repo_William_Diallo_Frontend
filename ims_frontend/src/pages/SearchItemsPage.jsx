@@ -201,21 +201,22 @@ export default function SearchItemsPage() {
                       <td>{item.category || "-"}</td>
                       <td>{item.status || "-"}</td>
                       <td>
-                        <button
-                          type="button"
-                          className="btn-secondary"
-                          onClick={() => navigate(`/items/${item.id}`)}
-                        >
-                          View
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-secondary"
-                          onClick={() => navigate(`/items/${item.id}/edit`)}
-                          style={{ marginLeft: "0.5rem" }}
-                        >
-                          Edit
-                        </button>
+                        <div className="button-group">
+                          <button
+                            type="button"
+                            className="btn-secondary btn--small"
+                            onClick={() => navigate(`/items/${item.id}`)}
+                          >
+                            View
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-secondary btn--small"
+                            onClick={() => navigate(`/items/${item.id}/edit`)}
+                          >
+                            Edit
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

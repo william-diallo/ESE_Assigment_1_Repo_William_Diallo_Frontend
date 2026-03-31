@@ -42,37 +42,51 @@ export default function ForgotPasswordPage() {
   // If reset code was sent successfully, show success message
   if (resetCodeSent) {
     return (
-      <div>
-        <h1>Check Your Email</h1>
-        <p>
-          We've sent a reset code to <strong>{email}</strong>. Check your email
-          and follow the instructions to reset your password.
-        </p>
-        <button type="button" onClick={() => navigate("/reset-password")}>
-          Enter Reset Code
-        </button>
-        <p>
-          Remember your password?{" "}
-          <button type="button" onClick={() => navigate("/login")}>
-            Back to Login
-          </button>
-        </p>
+      <div className="page-shell page-shell--center">
+        <div className="page-card page-card--compact">
+          <p className="page-kicker">Password Recovery</p>
+          <h1 className="page-title">Check Your Email</h1>
+          <p className="page-subtitle">
+            We've sent a reset code to <strong>{email}</strong>. Check your email
+            and continue the password reset flow.
+          </p>
+          <div className="action-row">
+            <button
+              type="button"
+              className="btn"
+              onClick={() => navigate("/reset-password")}
+            >
+              Enter Reset Code
+            </button>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => navigate("/login")}
+            >
+              Back to Login
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
   // Request form — collect email and send it to the backend
   return (
-    <div>
-      <h1>Forgot Password?</h1>
-      <p>Enter your email address and we'll send you a reset code.</p>
+    <div className="page-shell page-shell--center">
+      <div className="page-card page-card--compact">
+        <p className="page-kicker">Password Recovery</p>
+        <h1 className="page-title">Forgot Password?</h1>
+        <p className="page-subtitle">
+          Enter your email address and we'll send you a reset code.
+        </p>
 
-      {/* Display any validation or network errors */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {/* Display any validation or network errors */}
+        {error && <div className="status-message status-message--error">{error}</div>}
 
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="app-form">
         {/* Email input — matches PasswordResetRequestSerializer.email field */}
-        <div>
+        <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -85,18 +99,25 @@ export default function ForgotPasswordPage() {
           />
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="btn btn--block" disabled={loading}>
           {loading ? "Sending..." : "Send Reset Code"}
         </button>
-      </form>
+        </form>
 
-      {/* Navigation back to login */}
-      <p>
-        Remember your password?{" "}
-        <button type="button" onClick={() => navigate("/login")}>
-          Back to Login
-        </button>
-      </p>
+        {/* Navigation back to login */}
+        <div className="text-actions">
+          <p>
+            Remember your password?{" "}
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => navigate("/login")}
+            >
+              Back to Login
+            </button>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

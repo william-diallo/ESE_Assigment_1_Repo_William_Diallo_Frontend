@@ -76,15 +76,22 @@ export default function RegisterPage() {
   }
 
   return (
-    <div>
-      <h1>Create Account</h1>
+    <div className="page-shell page-shell--center">
+      <div className="page-card page-card--compact">
+        <p className="page-kicker">Inventory Management</p>
+        <h1 className="page-title">Create Account</h1>
+        <p className="page-subtitle">
+          Register a new account with the access level required for your team.
+        </p>
 
-      {/* Top-level error (network issues or non_field_errors from the serializer) */}
-      {generalError && <p style={{ color: "red" }}>{generalError}</p>}
+        {/* Top-level error (network issues or non_field_errors from the serializer) */}
+        {generalError && (
+          <div className="status-message status-message--error">{generalError}</div>
+        )}
 
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="app-form">
         {/* Email — required by RegisterSerializer */}
-        <div>
+        <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -95,13 +102,11 @@ export default function RegisterPage() {
             onChange={handleChange}
             required
           />
-          {fieldErrors.email && (
-            <p style={{ color: "red" }}>{fieldErrors.email}</p>
-          )}
+          {fieldErrors.email && <p className="field-error">{fieldErrors.email}</p>}
         </div>
 
         {/* Password — validated server-side by django's validate_password */}
-        <div>
+        <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
             id="password"
@@ -113,12 +118,12 @@ export default function RegisterPage() {
             required
           />
           {fieldErrors.password && (
-            <p style={{ color: "red" }}>{fieldErrors.password}</p>
+            <p className="field-error">{fieldErrors.password}</p>
           )}
         </div>
 
         {/* Confirm Password — client-side only, not sent to the backend */}
-        <div>
+        <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             id="confirmPassword"
@@ -130,13 +135,13 @@ export default function RegisterPage() {
             required
           />
           {fieldErrors.confirmPassword && (
-            <p style={{ color: "red" }}>{fieldErrors.confirmPassword}</p>
+            <p className="field-error">{fieldErrors.confirmPassword}</p>
           )}
         </div>
 
         {/* Role — corresponds to the role field in RegisterSerializer.
             Defaults to STAFF, matching the serializer's create() default. */}
-        <div>
+        <div className="form-group">
           <label htmlFor="role">Role</label>
           <select
             id="role"
@@ -150,23 +155,28 @@ export default function RegisterPage() {
               </option>
             ))}
           </select>
-          {fieldErrors.role && (
-            <p style={{ color: "red" }}>{fieldErrors.role}</p>
-          )}
+          {fieldErrors.role && <p className="field-error">{fieldErrors.role}</p>}
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="btn btn--block" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
-      </form>
+        </form>
 
-      {/* Link back to login for users who already have an account */}
-      <p>
-        Already have an account?{" "}
-        <button type="button" onClick={() => navigate("/login")}>
-          Log in
-        </button>
-      </p>
+        {/* Link back to login for users who already have an account */}
+        <div className="text-actions">
+          <p>
+            Already have an account?{" "}
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => navigate("/login")}
+            >
+              Log in
+            </button>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -3,113 +3,74 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background: linear-gradient(145deg, #f5f8ff 0%, #ecfff4 100%);
-  padding: 2rem;
+  padding: 40px 20px;
 }
 
 .item-details-card {
-  background: #ffffff;
+  background: var(--bg-panel);
   width: 100%;
   max-width: 820px;
-  border-radius: 12px;
-  box-shadow: 0 10px 36px rgba(16, 24, 40, 0.08);
-  padding: 2rem;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  padding: 32px;
+  backdrop-filter: blur(10px);
 }
 
 .item-details-card h1 {
   margin: 0 0 1rem;
-  color: #13233d;
+  color: var(--text-main);
+  font-size: clamp(2rem, 3vw, 2.5rem);
 }
 
 .details-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.65rem;
-  margin-bottom: 1.5rem;
+  gap: 12px;
+  margin-bottom: 28px;
 }
 
 .detail-row {
   display: grid;
   grid-template-columns: 160px 1fr;
-  gap: 0.75rem;
-  border-bottom: 1px solid #eef2f8;
-  padding-bottom: 0.5rem;
+  gap: 16px;
+  border-bottom: 1px solid rgba(125, 99, 67, 0.1);
+  padding: 0 0 12px;
 }
 
 .label {
   font-weight: 700;
-  color: #284166;
+  color: var(--accent-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.82rem;
 }
 
 .value {
-  color: #1b2a3f;
+  color: var(--text-main);
   word-break: break-word;
 }
 
 .actions-row {
   display: flex;
-  gap: 0.75rem;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 0.75rem;
-}
-
-.btn-secondary,
-.btn-danger {
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1rem;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.btn-secondary {
-  background: #e5ebf3;
-  color: #1e2f46;
-}
-
-.btn-danger {
-  background: #d92d20;
-  color: #ffffff;
-}
-
-.btn-secondary:disabled,
-.btn-danger:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-.error-message,
-.success-message {
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-}
-
-.error-message {
-  background: #ffe8e8;
-  border: 1px solid #ffb4b4;
-  color: #9f2222;
-}
-
-.success-message {
-  background: #e8fff1;
-  border: 1px solid #a8efc4;
-  color: #0b6b31;
+  margin-bottom: 16px;
 }
 
 .hint-text {
-  color: #51647e;
+  color: var(--text-muted);
   font-size: 0.92rem;
   margin: 0;
 }
 
 @media (max-width: 700px) {
   .item-details-container {
-    padding: 1rem;
+    padding: 20px 14px;
   }
 
   .item-details-card {
-    padding: 1.25rem;
+    padding: 24px 18px;
   }
 
   .detail-row {

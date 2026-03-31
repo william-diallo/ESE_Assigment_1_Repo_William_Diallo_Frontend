@@ -1,124 +1,61 @@
 .update-item-container {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  background: linear-gradient(135deg, #e9f2ff 0%, #f2ffef 100%);
-  padding: 2rem;
+  padding: 40px 20px;
 }
 
 .update-item-card {
-  background: #ffffff;
+  background: var(--bg-panel);
   width: 100%;
-  max-width: 700px;
-  border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(12, 24, 40, 0.1);
-  padding: 2rem;
+  max-width: 720px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  padding: 32px;
+  backdrop-filter: blur(10px);
 }
 
 .update-item-card h1 {
   margin: 0 0 0.4rem;
-  color: #1a2a40;
+  color: var(--text-main);
+  font-size: clamp(2rem, 3vw, 2.5rem);
 }
 
 .subtitle {
   margin: 0 0 1.25rem;
-  color: #4f627b;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 .update-item-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.form-group label {
-  font-weight: 600;
-  color: #1c2f48;
-}
-
-.form-group input,
-.form-group textarea {
-  border: 1px solid #ccd6e3;
-  border-radius: 8px;
-  padding: 0.7rem 0.85rem;
-  font-size: 0.95rem;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #3362e6;
-  box-shadow: 0 0 0 3px rgba(51, 98, 230, 0.14);
-}
-
-.form-group input:disabled,
-.form-group textarea:disabled {
-  background: #f7f9fc;
-  cursor: not-allowed;
+  gap: 18px;
 }
 
 .form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 18px;
 }
 
 .form-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 12px;
   margin-top: 0.25rem;
 }
 
-.btn-primary,
-.btn-secondary {
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: #1f6feb;
-  color: #ffffff;
-}
-
-.btn-secondary {
-  background: #e4eaf3;
-  color: #21344f;
-}
-
-.btn-primary:disabled,
-.btn-secondary:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-.error-message {
-  border: 1px solid #ffb4b4;
-  background: #ffe9e9;
-  color: #a12d2d;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
+.form-actions .btn-primary,
+.form-actions .btn-secondary {
+  flex: 1;
 }
 
 @media (max-width: 700px) {
   .update-item-container {
-    padding: 1rem;
+    padding: 20px 14px;
   }
 
   .update-item-card {
-    padding: 1.25rem;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
+    padding: 24px 18px;
   }
 }
