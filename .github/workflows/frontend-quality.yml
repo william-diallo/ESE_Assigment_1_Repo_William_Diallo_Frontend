@@ -29,10 +29,14 @@ jobs:
         run: npm ci
         working-directory: ims_frontend
 
-      - name: Run ESLint
-        run: npm run lint
+      - name: Format with Prettier
+        run: npm run format
         working-directory: ims_frontend
 
       - name: Check Prettier formatting
         run: npm run format:check
+        working-directory: ims_frontend
+
+      - name: Run ESLint
+        run: npm run lint
         working-directory: ims_frontend
