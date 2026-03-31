@@ -36,6 +36,16 @@ export default function UpdateItemPage() {
   const { itemId } = useParams();
   const navigate = useNavigate();
 
+  const categoryOptions = [
+    "Electronics - Home Appliances",
+    "Electronics - Games",
+    "Electronics - Misc",
+    "Food - Fruits and Vegetables",
+    "Food - Bakery",
+    "Food - Misc",
+    "Home",
+  ];
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -175,15 +185,21 @@ export default function UpdateItemPage() {
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="category">Category *</label>
-              <input
+              <select
                 id="category"
                 name="category"
-                type="text"
                 value={formData.category}
                 onChange={handleChange}
                 disabled={saving}
                 required
-              />
+              >
+                <option value="">Select a category</option>
+                {categoryOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group">
