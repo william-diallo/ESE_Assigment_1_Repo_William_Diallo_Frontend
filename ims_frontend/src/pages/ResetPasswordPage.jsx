@@ -70,16 +70,22 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div>
-      <h1>Reset Password</h1>
-      <p>Enter your reset code (from the email) and your new password.</p>
+    <div className="page-shell page-shell--center">
+      <div className="page-card page-card--compact">
+        <p className="page-kicker">Password Recovery</p>
+        <h1 className="page-title">Reset Password</h1>
+        <p className="page-subtitle">
+          Enter the reset code from your email and choose a new password.
+        </p>
 
-      {/* Top-level error (network, non_field_errors) */}
-      {generalError && <p style={{ color: "red" }}>{generalError}</p>}
+        {/* Top-level error (network, non_field_errors) */}
+        {generalError && (
+          <div className="status-message status-message--error">{generalError}</div>
+        )}
 
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="app-form">
         {/* Email — required by PasswordResetConfirmSerializer */}
-        <div>
+        <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
             id="email"
@@ -91,7 +97,7 @@ export default function ResetPasswordPage() {
             required
           />
           {fieldErrors.email && (
-            <p style={{ color: "red" }}>
+            <p className="field-error">
               {Array.isArray(fieldErrors.email)
                 ? fieldErrors.email.join(" ")
                 : fieldErrors.email}
@@ -101,7 +107,7 @@ export default function ResetPasswordPage() {
 
         {/* 6-digit reset code — from PasswordResetConfirmSerializer
             Backend checks: not used, not expired, exactly 6 characters */}
-        <div>
+        <div className="form-group">
           <label htmlFor="code">Reset Code</label>
           <input
             id="code"
@@ -114,7 +120,7 @@ export default function ResetPasswordPage() {
             required
           />
           {fieldErrors.code && (
-            <p style={{ color: "red" }}>
+            <p className="field-error">
               {Array.isArray(fieldErrors.code)
                 ? fieldErrors.code.join(" ")
                 : fieldErrors.code}
@@ -123,7 +129,7 @@ export default function ResetPasswordPage() {
         </div>
 
         {/* New password — validated server-side by django's validate_password */}
-        <div>
+        <div className="form-group">
           <label htmlFor="newPassword">New Password</label>
           <input
             id="newPassword"
@@ -135,7 +141,7 @@ export default function ResetPasswordPage() {
             required
           />
           {fieldErrors.new_password && (
-            <p style={{ color: "red" }}>
+            <p className="field-error">
               {Array.isArray(fieldErrors.new_password)
                 ? fieldErrors.new_password.join(" ")
                 : fieldErrors.new_password}
@@ -144,7 +150,7 @@ export default function ResetPasswordPage() {
         </div>
 
         {/* Confirm new password — client-side only, not sent to backend */}
-        <div>
+        <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             id="confirmPassword"
@@ -156,22 +162,29 @@ export default function ResetPasswordPage() {
             required
           />
           {fieldErrors.confirmPassword && (
-            <p style={{ color: "red" }}>{fieldErrors.confirmPassword}</p>
+            <p className="field-error">{fieldErrors.confirmPassword}</p>
           )}
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" className="btn btn--block" disabled={loading}>
           {loading ? "Resetting..." : "Reset Password"}
         </button>
-      </form>
+        </form>
 
-      {/* Navigation back to login */}
-      <p>
-        Remember your password?{" "}
-        <button type="button" onClick={() => navigate("/login")}>
-          Back to Login
-        </button>
-      </p>
+        {/* Navigation back to login */}
+        <div className="text-actions">
+          <p>
+            Remember your password?{" "}
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => navigate("/login")}
+            >
+              Back to Login
+            </button>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

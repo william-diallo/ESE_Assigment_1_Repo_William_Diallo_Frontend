@@ -33,36 +33,71 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="page-shell page-shell--center">
+      <div className="page-card page-card--compact">
+        <p className="page-kicker">Inventory Management</p>
+        <h1 className="page-title">Login</h1>
+        <p className="page-subtitle">
+          Sign in to access inventory records, item search, and management
+          actions.
+        </p>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <div className="status-message status-message--error">{error}</div>}
 
-      <form onSubmit={handleSubmit}>
-        <input name="email" placeholder="Email" onChange={handleChange} />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          onChange={handleChange}
-        />
-        <button type="submit">Login</button>
-      </form>
+        <form onSubmit={handleSubmit} className="app-form">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              value={form.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      {/* Link to password recovery */}
-      <p>
-        <button type="button" onClick={() => navigate("/forgot-password")}>
-          Forgot Password?
-        </button>
-      </p>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      {/* Link to registration for new users */}
-      <p>
-        Don't have an account?{" "}
-        <button type="button" onClick={() => navigate("/register")}>
-          Register
-        </button>
-      </p>
+          <button type="submit" className="btn btn--block">
+            Login
+          </button>
+        </form>
+
+        <div className="text-actions">
+          <p>
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => navigate("/forgot-password")}
+            >
+              Forgot Password?
+            </button>
+          </p>
+          <p>
+            Don't have an account?{" "}
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </button>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

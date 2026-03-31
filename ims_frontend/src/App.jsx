@@ -5,6 +5,10 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Dashboard from "./pages/Dashboard";
+import AddItemPage from "./pages/AddItemPage";
+import SearchItemsPage from "./pages/SearchItemsPage";
+import ItemDetailsPage from "./pages/ItemDetailsPage";
+import UpdateItemPage from "./pages/UpdateItemPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -29,6 +33,42 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/add-item"
+            element={
+              <ProtectedRoute>
+                <AddItemPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/search-items"
+            element={
+              <ProtectedRoute>
+                <SearchItemsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/items/:itemId"
+            element={
+              <ProtectedRoute>
+                <ItemDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/items/:itemId/edit"
+            element={
+              <ProtectedRoute>
+                <UpdateItemPage />
               </ProtectedRoute>
             }
           />
