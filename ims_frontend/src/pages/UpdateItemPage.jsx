@@ -42,6 +42,11 @@ export default function UpdateItemPage() {
     category: "",
     quantity: "",
   });
+  const normalizedCategory = formData.category.trim();
+  const resolvedCategoryOptions =
+    normalizedCategory && !categoryOptions.includes(normalizedCategory)
+      ? [normalizedCategory, ...categoryOptions]
+      : categoryOptions;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -184,7 +189,7 @@ export default function UpdateItemPage() {
                 required
               >
                 <option value="">Select a category</option>
-                {categoryOptions.map((option) => (
+                {resolvedCategoryOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
