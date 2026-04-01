@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../services/api";
+import { registerUser } from "../features/auth";
+import { ROUTES } from "../constants/routes";
+import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 // Role options that the backend supports via the User model.
 // "STAFF" is the default set by RegisterSerializer when no role is provided.
@@ -39,6 +41,28 @@ export default function RegisterPage() {
     setFieldErrors({});
     setGeneralError("");
 
+    const clientErrors = {};
+
+    if (!isValidEmail(form.email)) {
+      clientErrors.email = "Enter a valid email address.";
+    } else if (hasUnsafeInput(form.email)) {
+      clientErrors.email = "Email contains disallowed characters or patterns.";
+    }
+
+    if (hasUnsafeInput(form.password)) {
+      clientErrors.password = "Password contains disallowed characters or patterns.";
+    }
+
+    if (hasUnsafeInput(form.confirmPassword)) {
+      clientErrors.confirmPassword =
+        "Confirm password contains disallowed characters or patterns.";
+    }
+
+    if (Object.keys(clientErrors).length > 0) {
+      setFieldErrors(clientErrors);
+      return;
+    }
+
     // Client-side password confirmation check before hitting the network
     if (form.password !== form.confirmPassword) {
       setFieldErrors({ confirmPassword: "Passwords do not match." });
@@ -55,7 +79,7 @@ export default function RegisterPage() {
       });
 
       // Registration succeeded — redirect to login so the user can sign in
-      navigate("/login", { replace: true });
+      navigate(ROUTES.LOGIN, { replace: true });
     } catch (err) {
       // Django REST Framework returns 400 with a detail object on validation failure.
       // e.g. { email: ["user with this email already exists."], password: ["..."] }
@@ -170,7 +194,7 @@ export default function RegisterPage() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Log in
             </button>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { deleteInventoryItem, getInventoryItem } from "../services/api";
+import { deleteInventoryItem, getInventoryItem } from "../features/inventory";
+import { ROUTES, itemEditPath } from "../constants/routes";
 import "../styles/ItemDetailsPage.css";
 
 export default function ItemDetailsPage() {
@@ -57,7 +58,7 @@ export default function ItemDetailsPage() {
       setSuccessMessage("Item deleted successfully.");
 
       setTimeout(() => {
-        navigate("/search-items");
+        navigate(ROUTES.SEARCH_ITEMS);
       }, 800);
     } catch (err) {
       const errorMessage =
@@ -85,7 +86,7 @@ export default function ItemDetailsPage() {
         <div className="item-details-card">
           <h1>Item Details</h1>
           <div className="error-message">{error}</div>
-          <button className="btn-secondary" onClick={() => navigate("/search-items")}>
+          <button className="btn-secondary" onClick={() => navigate(ROUTES.SEARCH_ITEMS)}> 
             Back to Search
           </button>
         </div>
@@ -143,12 +144,12 @@ export default function ItemDetailsPage() {
         )}
 
         <div className="actions-row">
-          <button className="btn-secondary" onClick={() => navigate("/search-items")}> 
+          <button className="btn-secondary" onClick={() => navigate(ROUTES.SEARCH_ITEMS)}> 
             Back to Search
           </button>
           <button
             className="btn-secondary"
-            onClick={() => navigate(`/items/${itemId}/edit`)}
+            onClick={() => navigate(itemEditPath(itemId))}
             disabled={!item}
           >
             Edit Item
