@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import api from "../services/api";
+import { hasUnsafeInput } from "../utils/inputValidation";
 import "../styles/AddItemPage.css";
 
 export default function AddItemPage() {
@@ -58,6 +59,12 @@ export default function AddItemPage() {
 
     if (!formData.quantity || parseInt(formData.quantity) < 0) {
       setError("Please enter a valid quantity");
+      setLoading(false);
+      return;
+    }
+
+    if (hasUnsafeInput(formData.name) || hasUnsafeInput(formData.description)) {
+      setError("Input contains disallowed characters or patterns");
       setLoading(false);
       return;
     }

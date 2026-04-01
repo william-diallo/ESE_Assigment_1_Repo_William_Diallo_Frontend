@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getInventoryItem, updateInventoryItem } from "../services/api";
+import { hasUnsafeInput } from "../utils/inputValidation";
 import "../styles/UpdateItemPage.css";
 
 function normalizeError(err, fallback) {
@@ -110,6 +111,11 @@ export default function UpdateItemPage() {
 
     if (quantityValue < 0) {
       setError("Quantity cannot be negative.");
+      return;
+    }
+
+    if (hasUnsafeInput(formData.name) || hasUnsafeInput(formData.description)) {
+      setError("Input contains disallowed characters or patterns.");
       return;
     }
 

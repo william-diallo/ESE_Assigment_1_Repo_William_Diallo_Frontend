@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/api";
+import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 // Role options that the backend supports via the User model.
 // "STAFF" is the default set by RegisterSerializer when no role is provided.
@@ -38,6 +39,28 @@ export default function RegisterPage() {
     e.preventDefault();
     setFieldErrors({});
     setGeneralError("");
+
+    const clientErrors = {};
+
+    if (!isValidEmail(form.email)) {
+      clientErrors.email = "Enter a valid email address.";
+    } else if (hasUnsafeInput(form.email)) {
+      clientErrors.email = "Email contains disallowed characters or patterns.";
+    }
+
+    if (hasUnsafeInput(form.password)) {
+      clientErrors.password = "Password contains disallowed characters or patterns.";
+    }
+
+    if (hasUnsafeInput(form.confirmPassword)) {
+      clientErrors.confirmPassword =
+        "Confirm password contains disallowed characters or patterns.";
+    }
+
+    if (Object.keys(clientErrors).length > 0) {
+      setFieldErrors(clientErrors);
+      return;
+    }
 
     // Client-side password confirmation check before hitting the network
     if (form.password !== form.confirmPassword) {

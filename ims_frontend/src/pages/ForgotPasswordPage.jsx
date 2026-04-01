@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { requestPasswordReset } from "../services/api";
+import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -17,6 +18,16 @@ export default function ForgotPasswordPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+
+    if (!isValidEmail(email)) {
+      setError("Enter a valid email address.");
+      return;
+    }
+
+    if (hasUnsafeInput(email)) {
+      setError("Email contains disallowed characters or patterns.");
+      return;
+    }
 
     setLoading(true);
     try {

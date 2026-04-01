@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchInventoryItems } from "../services/api";
+import { hasUnsafeInputInObject } from "../utils/inputValidation";
 import "../styles/SearchItemsPage.css";
 
 export default function SearchItemsPage() {
@@ -39,6 +40,12 @@ export default function SearchItemsPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    if (hasUnsafeInputInObject(filters)) {
+      setError("Search filters contain disallowed characters or patterns.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const queryParams = buildQueryParams();

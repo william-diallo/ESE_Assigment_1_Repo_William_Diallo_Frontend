@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/api";
 import { AuthContext } from "../context/AuthContext";
+import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,6 +18,16 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+
+    if (!isValidEmail(form.email)) {
+      setError("Enter a valid email address.");
+      return;
+    }
+
+    if (hasUnsafeInput(form.email) || hasUnsafeInput(form.password)) {
+      setError("Input contains disallowed characters or patterns.");
+      return;
+    }
 
     try {
       const res = await loginUser(form);
