@@ -65,6 +65,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
+## Render Deployment
+
+This frontend is configured for Render using the root-level [render.yaml](../render.yaml).
+
+### Required Environment Variable
+
+Set this in Render (Static Site -> Environment):
+
+- `REACT_APP_API_BASE_URL`: your backend API base URL, for example `https://your-backend-domain.com/api`
+
+### Deploy Steps
+
+1. Push this repository to GitHub.
+2. In Render, create a new Blueprint and select this repo.
+3. Render will detect [render.yaml](../render.yaml) and create the static site service.
+4. Set `REACT_APP_API_BASE_URL` in the service environment variables.
+5. Trigger deploy.
+
+### Notes
+
+- SPA routing is handled with a rewrite rule to `/index.html`.
+- Production builds require `REACT_APP_API_BASE_URL`; local development can still fall back to `http://127.0.0.1:8000/api`.
+
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

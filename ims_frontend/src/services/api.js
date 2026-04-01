@@ -1,7 +1,17 @@
 import axios from "axios";
 
-const apiBaseUrl =
-  process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000/api";
+const isDevelopment = process.env.NODE_ENV === "development";
+const configuredApiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+const apiBaseUrl = isDevelopment
+  ? configuredApiBaseUrl || "http://127.0.0.1:8000/api"
+  : configuredApiBaseUrl;
+
+if (!apiBaseUrl) {
+  throw new Error(
+    "REACT_APP_API_BASE_URL is required for non-development builds."
+  );
+}
 
 const api = axios.create({
   baseURL: apiBaseUrl,
