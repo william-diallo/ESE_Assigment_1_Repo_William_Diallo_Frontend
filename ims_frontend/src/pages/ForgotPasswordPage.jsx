@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { requestPasswordReset } from "../services/api";
+import { requestPasswordReset } from "../features/auth";
+import { ROUTES } from "../constants/routes";
 import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 export default function ForgotPasswordPage() {
@@ -65,14 +66,14 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               className="btn"
-              onClick={() => navigate("/reset-password")}
+              onClick={() => navigate(ROUTES.RESET_PASSWORD)}
             >
               Enter Reset Code
             </button>
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Back to Login
             </button>
@@ -122,7 +123,7 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Back to Login
             </button>

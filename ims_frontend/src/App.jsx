@@ -10,6 +10,7 @@ import SearchItemsPage from "./pages/SearchItemsPage";
 import ItemDetailsPage from "./pages/ItemDetailsPage";
 import UpdateItemPage from "./pages/UpdateItemPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ROUTES, itemDetailsPath, itemEditPath } from "./constants/routes";
 
 export default function App() {
   console.log("APP RENDERED");
@@ -17,19 +18,19 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
+          <Route path={ROUTES.HOME} element={<Login />} />
+          <Route path={ROUTES.LOGIN} element={<Login />} />
 
           {/* Public registration route — no auth required */}
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
 
           {/* Public password reset routes — no auth required
           Users request a reset code, then confirm it with new password */}
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+          <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
 
           <Route
-            path="/dashboard"
+            path={ROUTES.DASHBOARD}
             element={
               <ProtectedRoute>
                 <Dashboard />
@@ -38,7 +39,7 @@ export default function App() {
           />
 
           <Route
-            path="/add-item"
+            path={ROUTES.ADD_ITEM}
             element={
               <ProtectedRoute>
                 <AddItemPage />
@@ -47,7 +48,7 @@ export default function App() {
           />
 
           <Route
-            path="/search-items"
+            path={ROUTES.SEARCH_ITEMS}
             element={
               <ProtectedRoute>
                 <SearchItemsPage />
@@ -56,7 +57,7 @@ export default function App() {
           />
 
           <Route
-            path="/items/:itemId"
+            path={itemDetailsPath(":itemId")}
             element={
               <ProtectedRoute>
                 <ItemDetailsPage />
@@ -65,7 +66,7 @@ export default function App() {
           />
 
           <Route
-            path="/items/:itemId/edit"
+            path={itemEditPath(":itemId")}
             element={
               <ProtectedRoute>
                 <UpdateItemPage />

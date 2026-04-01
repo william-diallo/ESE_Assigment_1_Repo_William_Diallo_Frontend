@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { confirmPasswordReset } from "../services/api";
+import { confirmPasswordReset } from "../features/auth";
+import { ROUTES } from "../constants/routes";
 import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 export default function ResetPasswordPage() {
@@ -77,7 +78,7 @@ export default function ResetPasswordPage() {
       await confirmPasswordReset(form.email, form.code, form.newPassword);
 
       // Reset successful — redirect to login so user can sign in with new password
-      navigate("/login", { replace: true });
+      navigate(ROUTES.LOGIN, { replace: true });
     } catch (err) {
       // Django REST returns 400 with validation errors from PasswordResetConfirmSerializer.validate()
       // e.g. { email: [...], code: [...], new_password: [...] }
@@ -206,7 +207,7 @@ export default function ResetPasswordPage() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Back to Login
             </button>

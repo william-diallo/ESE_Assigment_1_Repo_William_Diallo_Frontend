@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../services/api";
+import { registerUser } from "../features/auth";
+import { ROUTES } from "../constants/routes";
 import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 // Role options that the backend supports via the User model.
@@ -78,7 +79,7 @@ export default function RegisterPage() {
       });
 
       // Registration succeeded — redirect to login so the user can sign in
-      navigate("/login", { replace: true });
+      navigate(ROUTES.LOGIN, { replace: true });
     } catch (err) {
       // Django REST Framework returns 400 with a detail object on validation failure.
       // e.g. { email: ["user with this email already exists."], password: ["..."] }
@@ -193,7 +194,7 @@ export default function RegisterPage() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Log in
             </button>

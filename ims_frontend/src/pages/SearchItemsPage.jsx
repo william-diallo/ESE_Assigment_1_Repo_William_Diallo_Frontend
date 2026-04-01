@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { searchInventoryItems } from "../services/api";
+import { searchInventoryItems } from "../features/inventory";
+import { ROUTES, itemDetailsPath, itemEditPath } from "../constants/routes";
 import { hasUnsafeInputInObject } from "../utils/inputValidation";
 import "../styles/SearchItemsPage.css";
 
@@ -167,7 +168,7 @@ export default function SearchItemsPage() {
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate(ROUTES.DASHBOARD)}
               disabled={loading}
             >
               Back to Dashboard
@@ -212,14 +213,14 @@ export default function SearchItemsPage() {
                           <button
                             type="button"
                             className="btn-secondary btn--small"
-                            onClick={() => navigate(`/items/${item.id}`)}
+                            onClick={() => navigate(itemDetailsPath(item.id))}
                           >
                             View
                           </button>
                           <button
                             type="button"
                             className="btn-secondary btn--small"
-                            onClick={() => navigate(`/items/${item.id}/edit`)}
+                            onClick={() => navigate(itemEditPath(item.id))}
                           >
                             Edit
                           </button>
