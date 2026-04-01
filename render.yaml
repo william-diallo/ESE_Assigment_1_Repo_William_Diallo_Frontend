@@ -1,5 +1,6 @@
 services:
-  - type: static
+  - type: web
+    env: static
     name: ims-frontend
     rootDir: ims_frontend
     buildCommand: npm ci; npm run build
