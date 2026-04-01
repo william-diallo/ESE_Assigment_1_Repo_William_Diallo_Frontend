@@ -1,7 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import api from "../services/api";
+import { createInventoryItem } from "../features/inventory";
+import { ROUTES } from "../constants/routes";
+import { hasUnsafeInput } from "../utils/inputValidation";
 import "../styles/AddItemPage.css";
 
 export default function AddItemPage() {
@@ -62,6 +64,12 @@ export default function AddItemPage() {
       return;
     }
 
+    if (hasUnsafeInput(formData.name) || hasUnsafeInput(formData.description)) {
+      setError("Input contains disallowed characters or patterns");
+      setLoading(false);
+      return;
+    }
+
     try {
       // Map frontend field names to backend field names
       const payload = {
@@ -71,10 +79,10 @@ export default function AddItemPage() {
         category: formData.category.trim(),
       };
 
-      const response = await api.post("/inventory/items/", payload);
+      const response = await createInventoryItem(payload);
 
       // Success - redirect to dashboard or items list
-      navigate("/dashboard", {
+      navigate(ROUTES.DASHBOARD, {
         state: { message: `Item "${response.data.name}" created successfully!` },
       });
     } catch (err) {
@@ -178,7 +186,7 @@ export default function AddItemPage() {
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate(ROUTES.DASHBOARD)}
               disabled={loading}
             >
               Cancel

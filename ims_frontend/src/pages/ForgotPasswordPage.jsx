@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { requestPasswordReset } from "../services/api";
+import { requestPasswordReset } from "../features/auth";
+import { ROUTES } from "../constants/routes";
+import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -17,6 +19,16 @@ export default function ForgotPasswordPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+
+    if (!isValidEmail(email)) {
+      setError("Enter a valid email address.");
+      return;
+    }
+
+    if (hasUnsafeInput(email)) {
+      setError("Email contains disallowed characters or patterns.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -54,14 +66,14 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               className="btn"
-              onClick={() => navigate("/reset-password")}
+              onClick={() => navigate(ROUTES.RESET_PASSWORD)}
             >
               Enter Reset Code
             </button>
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Back to Login
             </button>
@@ -111,7 +123,7 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Back to Login
             </button>

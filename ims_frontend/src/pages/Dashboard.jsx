@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { ROUTES } from "../constants/routes";
 
 export default function Dashboard() {
   console.log("DASHBOARD RENDERED");
@@ -20,7 +21,7 @@ export default function Dashboard() {
           <section className="dashboard-tile">
             <h2>Create items</h2>
             <p>Add new inventory records with quantity, description, and category.</p>
-            <button className="btn" onClick={() => navigate("/add-item")}>
+            <button className="btn" onClick={() => navigate(ROUTES.ADD_ITEM)}>
               Add Inventory Item
             </button>
           </section>
@@ -30,7 +31,7 @@ export default function Dashboard() {
             <p>Filter existing stock, inspect details, and open edit actions.</p>
             <button
               className="btn-secondary"
-              onClick={() => navigate("/search-items")}
+              onClick={() => navigate(ROUTES.SEARCH_ITEMS)}
             >
               Search Items
             </button>

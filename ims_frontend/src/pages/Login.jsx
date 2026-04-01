@@ -1,7 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../services/api";
+import { loginUser } from "../features/auth";
 import { AuthContext } from "../context/AuthContext";
+import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
+import { ROUTES } from "../constants/routes";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -18,15 +20,35 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
+    if (!isValidEmail(form.email)) {
+      setError("Enter a valid email address.");
+      return;
+    }
+
+    // Validate user identifier input; password complexity belongs to backend policy.
+    if (hasUnsafeInput(form.email)) {
+      setError("Input contains disallowed characters or patterns.");
+      return;
+    }
+
     try {
       const res = await loginUser(form);
-      const { access, user } = res.data;
+      const token =
+        res.data?.access ||
+        res.data?.token ||
+        res.data?.access_token ||
+        res.data?.jwt;
+      const user = res.data?.user || null;
+
+      if (!token) {
+        throw new Error("Login response missing token");
+      }
 
       console.log("LOGIN SUCCESS, redirecting...", res.data);
 
-      await login(access, user); // store token + user (AuthProvider will resolve auth state)
+      await login(token, user); // store token + user (AuthProvider will resolve auth state)
       console.log("NAVIGATE FIRING"); //debugging
-      navigate("/dashboard", { replace: true });
+      navigate(ROUTES.DASHBOARD, { replace: true });
     } catch (err) {
       setError("Invalid email or password");
     }
@@ -81,7 +103,7 @@ export default function Login() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/forgot-password")}
+              onClick={() => navigate(ROUTES.FORGOT_PASSWORD)}
             >
               Forgot Password?
             </button>
@@ -91,7 +113,7 @@ export default function Login() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate(ROUTES.REGISTER)}
             >
               Register
             </button>

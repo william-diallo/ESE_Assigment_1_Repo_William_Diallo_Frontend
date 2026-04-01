@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { confirmPasswordReset } from "../services/api";
+import { confirmPasswordReset } from "../features/auth";
+import { ROUTES } from "../constants/routes";
+import { hasUnsafeInput, isValidEmail } from "../utils/inputValidation";
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
@@ -33,6 +35,33 @@ export default function ResetPasswordPage() {
     setFieldErrors({});
     setGeneralError("");
 
+    const clientErrors = {};
+
+    if (!isValidEmail(form.email)) {
+      clientErrors.email = "Enter a valid email address.";
+    } else if (hasUnsafeInput(form.email)) {
+      clientErrors.email = "Email contains disallowed characters or patterns.";
+    }
+
+    if (!/^\d{6}$/.test(form.code)) {
+      clientErrors.code = "Reset code must be exactly 6 digits.";
+    }
+
+    if (hasUnsafeInput(form.newPassword)) {
+      clientErrors.new_password =
+        "New password contains disallowed characters or patterns.";
+    }
+
+    if (hasUnsafeInput(form.confirmPassword)) {
+      clientErrors.confirmPassword =
+        "Confirm password contains disallowed characters or patterns.";
+    }
+
+    if (Object.keys(clientErrors).length > 0) {
+      setFieldErrors(clientErrors);
+      return;
+    }
+
     // Client-side validation: confirm passwords match before hitting the network
     if (form.newPassword !== form.confirmPassword) {
       setFieldErrors({ confirmPassword: "Passwords do not match." });
@@ -49,7 +78,7 @@ export default function ResetPasswordPage() {
       await confirmPasswordReset(form.email, form.code, form.newPassword);
 
       // Reset successful — redirect to login so user can sign in with new password
-      navigate("/login", { replace: true });
+      navigate(ROUTES.LOGIN, { replace: true });
     } catch (err) {
       // Django REST returns 400 with validation errors from PasswordResetConfirmSerializer.validate()
       // e.g. { email: [...], code: [...], new_password: [...] }
@@ -178,7 +207,7 @@ export default function ResetPasswordPage() {
             <button
               type="button"
               className="btn btn--ghost"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(ROUTES.LOGIN)}
             >
               Back to Login
             </button>

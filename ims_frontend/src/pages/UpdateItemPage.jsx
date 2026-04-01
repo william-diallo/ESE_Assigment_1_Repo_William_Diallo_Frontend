@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getInventoryItem, updateInventoryItem } from "../services/api";
+import { getInventoryItem, updateInventoryItem } from "../features/inventory";
+import { itemDetailsPath } from "../constants/routes";
+import { hasUnsafeInput } from "../utils/inputValidation";
 import "../styles/UpdateItemPage.css";
 
 function normalizeError(err, fallback) {
@@ -113,6 +115,11 @@ export default function UpdateItemPage() {
       return;
     }
 
+    if (hasUnsafeInput(formData.name) || hasUnsafeInput(formData.description)) {
+      setError("Input contains disallowed characters or patterns.");
+      return;
+    }
+
     const payload = {
       name: formData.name.trim(),
       description: formData.description.trim(),
@@ -123,7 +130,7 @@ export default function UpdateItemPage() {
     setSaving(true);
     try {
       await updateInventoryItem(itemId, payload);
-      navigate(`/items/${itemId}`, {
+      navigate(itemDetailsPath(itemId), {
         state: { successMessage: "Item updated successfully." },
       });
     } catch (err) {
@@ -219,7 +226,7 @@ export default function UpdateItemPage() {
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => navigate(`/items/${itemId}`)}
+              onClick={() => navigate(itemDetailsPath(itemId))}
               disabled={saving}
             >
               Cancel

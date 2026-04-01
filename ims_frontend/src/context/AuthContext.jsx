@@ -1,5 +1,10 @@
 import { createContext, useState, useEffect } from "react";
-import api from "../services/api";
+import {
+  clearAuthToken,
+  getCurrentUser,
+  getStoredToken,
+  setAuthToken,
+} from "../features/auth";
 
 export const AuthContext = createContext();
 
@@ -9,19 +14,18 @@ export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getStoredToken();
     if (!token) {
       setLoading(false);
       return;
     }
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    setAuthToken(token);
 
-    api
-      .get("/auth/me/")
+    getCurrentUser()
       .then((res) => setUser(res.data))
       .catch(() => {
-        localStorage.removeItem("token");
+        clearAuthToken();
         setUser(null);
       })
       .finally(() => setLoading(false));
@@ -29,19 +33,17 @@ export default function AuthProvider({ children }) {
 
   // FIXED: login now sets user FIRST, then resolves
   async function login(token, userData) {
-    localStorage.setItem("token", token);
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    setAuthToken(token);
 
     if (userData) {
       setUser(userData);
     } else {
       try {
-        const res = await api.get("/auth/me/");
+        const res = await getCurrentUser();
         setUser(res.data);
       } catch (err) {
         setUser(null);
-        localStorage.removeItem("token");
-        delete api.defaults.headers.common["Authorization"];
+        clearAuthToken();
         throw err;
       }
     }
@@ -54,8 +56,7 @@ export default function AuthProvider({ children }) {
   }
 
   function logout() {
-    localStorage.removeItem("token");
-    delete api.defaults.headers.common["Authorization"];
+    clearAuthToken();
     setUser(null);
   }
 
