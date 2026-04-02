@@ -31,7 +31,7 @@ export default function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-  // FIXED: login now sets user FIRST, then resolves
+
   async function login(token, userData) {
     setAuthToken(token);
 
