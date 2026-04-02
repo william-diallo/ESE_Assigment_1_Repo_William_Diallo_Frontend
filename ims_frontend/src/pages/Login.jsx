@@ -50,7 +50,31 @@ export default function Login() {
       console.log("NAVIGATE FIRING"); //debugging
       navigate(ROUTES.DASHBOARD, { replace: true });
     } catch (err) {
-      setError("Invalid email or password");
+      // Differentiate bad credentials from network/CORS/backend failures.
+      if (err.response) {
+        const serverMessage =
+          err.response?.data?.detail ||
+          err.response?.data?.message ||
+          (err.response?.status === 401
+            ? "Invalid email or password"
+            : "Login failed. Please try again.");
+        setError(serverMessage);
+      } else if (err.request) {
+        setError(
+          "Cannot reach the server. Check API base URL, CORS settings, and HTTPS configuration."
+        );
+      } else {
+        setError(err.message || "Login failed. Please try again.");
+      }
+
+      console.error("LOGIN ERROR", {
+        message: err.message,
+        code: err.code,
+        baseURL: err.config?.baseURL,
+        requestURL: err.config?.url,
+        status: err.response?.status,
+        data: err.response?.data,
+      });
     }
   }
 
