@@ -145,11 +145,6 @@ ims_frontend/
 
 The application reads the backend base URL from an environment variable.
 
-### Required Environment Variable
-
-```env
-REACT_APP_API_BASE_URL=https://your-backend-domain.com/api
-```
 
 ### Local Default
 
@@ -222,7 +217,7 @@ This frontend includes several practices that improve code quality and maintaina
 
 ## Deployment on Render
 
-This repository already includes a Render blueprint at the root level in `render.yaml`.
+This repository already includes a Render blueprint at the root level in `render.yaml`. Link: https://ims-frontend-ruw7.onrender.com/login
 
 ### Render Configuration Summary
 
